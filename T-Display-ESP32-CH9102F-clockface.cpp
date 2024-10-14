@@ -1,7 +1,7 @@
 #include <SPI.h>
 #include <TFT_eSPI.h> // Hardware-specific library
 
-#define TFT_CYBERPUNK_BG 0xFFE0 // Yellow
+#define TFT_CYBERPUNK_BG 0x0000 // Black
 #define TFT_CYBERPUNK_HOUR 0xF800 // Red
 #define TFT_CYBERPUNK_MINUTE 0x07E0 // Green
 #define TFT_CYBERPUNK_SECOND 0x0000 // Black
@@ -21,7 +21,11 @@ uint8_t hh = conv2d(__TIME__), mm = conv2d(__TIME__ + 3), ss = conv2d(__TIME__ +
 boolean initial = true;
 
 void setup(void) {
-    tft.init();
+    delay(1000); // Wait for the display to power up
+
+    tft.begin(); // Initialize the display
+    delay(500); // Wait for 500ms to ensure the display is ready
+
     tft.setRotation(0);
     tft.fillScreen(TFT_CYBERPUNK_BG);
     tft.setTextColor(TFT_CYBERPUNK_TEXT, TFT_CYBERPUNK_BG); // Adding a background colour erases previous text automatically
@@ -52,7 +56,7 @@ void drawClockFace() {
     }
 
     tft.fillCircle(120, 121, 3, TFT_CYBERPUNK_TEXT);
-    tft.drawCentreString("Time flies", 120, 260, 4);
+    tft.drawCentreString("Time flies", 120, 240, 4);
 }
 
 void drawLine(int angle, int radius1, int radius2, uint16_t color) {
