@@ -67,30 +67,7 @@ enum {
   KEY_F3 = 0x3C,
   KEY_F4 = 0x3D,
   KEY_F5 = 0x3E,
-  KEY_F6 = 0x3F,
-  KEY_F7 = 0x40,
-  KEY_F8 = 0x41,
-  KEY_F9 = 0x42,
-  KEY_F10 = 0x43,
-  KEY_F11 = 0x44,
-  KEY_F12 = 0x45,
-  KEY_PRINTSCREEN = 0x46,
-  KEY_SCROLL_LOCK = 0x47,
-  KEY_PAUSE = 0x48,
-  KEY_INSERT = 0x49,
-  KEY_HOME = 0x4A,
-  KEY_PAGE_UP = 0x4B,
-  KEY_DELETE = 0x4C,
-  KEY_END = 0x4D,
-  KEY_PAGE_DOWN = 0x4E,
-  KEY_RIGHT_ARROW = 0x4F,
-  KEY_LEFT_ARROW = 0x50,
-  KEY_DOWN_ARROW = 0x51,
-  KEY_UP_ARROW = 0x52,
-  KEY_NUM_LOCK = 0x53,
-  KEYPAD_SLASH = 0x54,
-  KEYPAD_ASTERISK = 0x55,
-  KEYPAD_MINUS = 0x56,
+  KEY_F6_MINUS = 0x56,
   KEYPAD_PLUS = 0x57,
   KEYPAD_ENTER = 0x58,
   KEYPAD_1 = 0x59,
@@ -110,6 +87,19 @@ enum {
   KEY_GUI = 0xE3
 };
 
+// Funkcja konwertująca znaki na kody klawiszy
+uint8_t charToKeycode(char c) {
+  if (c >= 'a' && c <= 'z') {
+    return KEY_A + (c - 'a');
+  } else if (c >= 'A' && c <= 'Z') {
+    return KEY_A + (c - 'A');
+  } else if (c >= '0' && c <= '9') {
+    return KEY_1 + (c - '1');
+  }
+  // Dodaj więcej warunków dla innych znaków
+  return 0;
+}
+
 // Funkcja wysyłająca dane klawiatury
 void sendKey(uint8_t key) {
   uint8_t keycode[6] = {0};  // Domyślnie brak klawiszy
@@ -117,6 +107,10 @@ void sendKey(uint8_t key) {
   usb_hid.keyboardReport(0, 0, keycode); // Wysłanie raportu HID
   delay(100);               // Krótkie opóźnienie
   usb_hid.keyboardRelease(); // Zwolnienie klawisza
+}
+
+void sendChar(char c) {
+  sendKey(charToKeycode(c));
 }
 
 void setup() {
@@ -134,38 +128,35 @@ void setup() {
   delay(3000);
 
   // Otwarcie przeglądarki: WIN + R
-  usb_hid.keyboardPress(KEY_GUI);  // Wciśnięcie klawisza Windows (GUI)
-  sendKey('r');  // Wciśnięcie "r" w celu otwarcia okna dialogowego "Uruchom"
-
-  delay(500);  // Czekamy na otwarcie okna "Uruchom"
+  usb_hid.keyboardPress(KEY_GUI);  // Wciśnięcie klawisza Windows (GUIamy na otwarcie okna "Uruchom"
 
   // Wpisanie komendy do otwarcia Chrome
-  sendKey('c');
-  sendKey('h');
-  sendKey('r');
-  sendKey('o');
-  sendKey('m');
-  sendKey('e');
+  sendChar('c');
+  sendChar('h');
+  sendChar('r');
+  sendChar('o');
+  sendChar('m');
+  sendChar('e');
   sendKey(KEY_ENTER);  // Wciśnięcie Enter, aby uruchomić Chrome
 
   delay(2000);  // Poczekaj na uruchomienie przeglądarki
 
   // Wpisanie linku do YouTube
-  sendKey('w');
-  sendKey('w');
-  sendKey('w');
-  sendKey('.');
-  sendKey('y');
-  sendKey('o');
-  sendKey('u');
-  sendKey('t');
-  sendKey('u');
-  sendKey('b');
-  sendKey('e');
-  sendKey('.');
-  sendKey('c');
-  sendKey('o');
-  sendKey('m');
+  sendChar('w');
+  sendChar('w');
+  sendChar('w');
+  sendChar('.');
+  sendChar('y');
+  sendChar('o');
+  sendChar('u');
+  sendChar('t');
+  sendChar('u');
+  sendChar('b');
+  sendChar('e');
+  sendChar('.');
+  sendChar('c');
+  sendChar('o');
+  sendChar('m');
   sendKey(KEY_ENTER);  // Wciśnięcie Enter
 
   delay(1000);  // Poczekaj, aż strona się załaduje
