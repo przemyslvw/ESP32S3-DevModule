@@ -16,33 +16,39 @@ void handleRoot() {
                                 "</script>");
 }
 
+void sendKey(uint8_t keycode); // Declaration of sendKey function
+
 void handleSendKey() {
-  String key = server.arg("key");
-  if (key.length() > 0) {
-    uint8_t keycode = key.toInt();
+  const String key = server.arg("key");
+  if (!key.isEmpty()) {
+    const uint8_t keycode = key.toInt();
     sendKey(keycode);  // Wywołanie funkcji BLE do wysyłania kluczy
   }
   server.send(200, "text/plain", "OK");
 }
 
-void setup() {
-  Serial.begin(115200);
-  
+void connectToWiFi() {
   WiFi.begin(ssid, password);
+  Serial.print("Łączenie z siecią Wi-Fi");
   while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Łączenie z siecią Wi-Fi...");
+    delay(500);
+    Serial.print(".");
   }
-  Serial.println("Połączono!");
+  Serial.println("\nPołączono!");
+}
+void bleKeyboardTask(void * parameter); // Declaration of bleKeyboardTask function
+
+void setupWebServer() {
+  connectToWiFi();
 
   server.on("/", handleRoot);
   server.on("/sendKey", handleSendKey);
   
   server.begin();
-
-  xTaskCreate(bleKeyboardTask, "BLE Keyboard Task", 5000, NULL, 1, NULL);
 }
 
+void handleWebServer() {
 void loop() {
+}oid loop() {
   server.handleClient();
 }
