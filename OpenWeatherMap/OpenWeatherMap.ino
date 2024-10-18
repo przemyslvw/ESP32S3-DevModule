@@ -21,18 +21,19 @@ const String longitude = "21.0122";
 String weatherApiUrl = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + apiKey;
 
 // Funkcja do łączenia z Wi-Fi
-void connectToWiFi() {
-  Serial.print("Łączenie z WiFi");
-  WiFi.begin(ssid, password);
-  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print(".");
-  }
+#include "WiFiManager.h"
 
-  Serial.println("\nPołączono z WiFi");
-  Serial.print("Adres IP: ");
-  Serial.println(WiFi.localIP());
+void connectToWiFi() {
+  WiFiManager wifiManager;
+  wifiManager.autoConnect("AutoConnectAP");
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("Połączono z WiFi");
+    Serial.print("Adres IP: ");
+    Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("Nie udało się połączyć z WiFi");
+  }
 }
 
 // Funkcja do pobierania danych z API pogodowego
