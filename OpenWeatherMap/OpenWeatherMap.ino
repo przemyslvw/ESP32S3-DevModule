@@ -1,12 +1,12 @@
+#include <Arduino.h>
+#include <TFT_eSPI.h>
 #include <WiFi.h>
-#include <HTTPClient.h>
-#include <ArduinoJson.h>
-#include <TFT_eSPI.h>  // Biblioteka do obsługi wyświetlacza TFT (SPI/ILI9341)
+#include "config.h"
+#include "wiFiManager.h"
 
 // Ustawienia ekranu (przy założeniu, że korzystasz z wyświetlacza TFT ILI9341)
 TFT_eSPI tft = TFT_eSPI();
 
-#include "config.h"
 // Stałe do połączenia Wi-Fi
 // const char* ssid = "Twoja_Nazwa_WiFi";
 // const char* password = "Twoje_Haslo_WiFi";
@@ -18,9 +18,6 @@ TFT_eSPI tft = TFT_eSPI();
 
 // URL API do pobierania danych pogodowych
 String weatherApiUrl = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + apiKey;
-
-// Funkcja do łączenia z Wi-Fi
-#include "WiFiManager.h"
 
 void connectToWiFi() {
   WiFiManager wifiManager;
