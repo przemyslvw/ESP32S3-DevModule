@@ -6,16 +6,15 @@
 // Ustawienia ekranu (przy założeniu, że korzystasz z wyświetlacza TFT ILI9341)
 TFT_eSPI tft = TFT_eSPI();
 
+#include "config.h"
 // Stałe do połączenia Wi-Fi
-const char* ssid = "Twoja_Nazwa_WiFi";
-const char* password = "Twoje_Haslo_WiFi";
-
-// Klucz API do OpenWeatherMap
-const String apiKey = "Twoj_Klucz_API";
-
-// Współrzędne lokalizacji (np. szerokość i długość geograficzna)
-const String latitude = "52.2297";   // Przykład: Warszawa
-const String longitude = "21.0122";
+// const char* ssid = "Twoja_Nazwa_WiFi";
+// const char* password = "Twoje_Haslo_WiFi";
+// // Klucz API do OpenWeatherMap
+// const String apiKey = "Twoj_Klucz_API";
+// // Współrzędne lokalizacji (np. szerokość i długość geograficzna)
+// const String latitude = "52.2297";   // Przykład: Warszawa
+// const String longitude = "21.0122";
 
 // URL API do pobierania danych pogodowych
 String weatherApiUrl = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + apiKey;
